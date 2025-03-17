@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PostX - Feed</title>
+    <script src="https://unpkg.com/@tailwindcss/browser@4"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/js/all.min.js"></script>
+    <style>
+        /* Hide scrollbar */
+        .scrollbar-hide::-webkit-scrollbar {
+            display: none;
+        }
+        .scrollbar-hide {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+</head>
+<body class="w-full px-[5vw] min-h-screen bg-zinc-900 text-white">
+    <nav class="w-full fixed top-0 left-0 flex justify-between items-center backdrop-blur-md py-4  px-6 shadow-lg z-50">
+        <h1 class="text-2xl font-bold text-blue-400">
+            <a href="/profile">PostX</a>
+        </h1>
+
+        <!-- Hamburger Icon -->
+        <div class="md:hidden">
+            <button id="menu-btn" class="text-white text-2xl focus:outline-none">
+                <i class="fas fa-bars"></i> <!-- Default hamburger icon -->
+            </button>
+        </div>
+
+        <!-- Navigation Links -->
+        <div id="nav-links" class="hidden md:flex items-center gap-4">
+            <a href="/profile" class="text-white text-base flex items-center"><i class="fas fa-user-circle text-lg mr-1"></i> Profile</a>
+            <a href="/feed" class="text-white text-base flex items-center"><i class="fas fa-rss text-lg mr-1"></i> Feed</a>
+            <a href="/logout" class="bg-red-500 px-3 py-1 rounded-lg text-white font-semibold flex items-center">
+                <i class="fas fa-sign-out-alt mr-2"></i> Logout
+            </a>
+        </div>
+    </nav>
+
+     <!-- Mobile Dropdown Menu -->
+     <div id="mobile-menu" class="hidden md:hidden sm:w-[50%] w-full   rounded-lg absolute top-[64px] right-0 py-4 shadow-lg transition-all ease-in-out backdrop-blur-md fixed ">
+        <a href="/profile" class="block px-6 py-2 text-white hover:bg-zinc-700"><i class="fas fa-user-circle mr-2"></i> Profile</a>
+        <a href="/feed" class="block px-6 py-2 text-white hover:bg-zinc-700"><i class="fas fa-rss mr-2"></i> Feed</a>
+        <a href="/logout" class="block px-6 py-2 text-white bg-red-500 hover:bg-red-600"><i class="fas fa-sign-out-alt mr-2 "></i> Logout</a>
+    </div>
+
+    <div class="mt-20 px-4">
+        <h3 class="text-zinc-400 text-xl mb-6 text-center">Explore what others are sharing 🚀</h3>
+
+        <!-- Responsive Post Grid -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-6 place-items-center">
+            <% posts.reverse().forEach(function(post){ %>
+                <div class="post-container w-full max-w-sm sm:max-w-[90%] md:max-w-sm h-[600px] p-4 border border-zinc-600 rounded-lg bg-zinc-700 flex flex-col
+                            hover:bg-blue-900/30 hover:ring-4 hover:ring-blue-500 
+                            hover:shadow-[0_0_20px_5px_rgba(59,130,246,0.7)] 
+                            hover:scale-105 transition-all duration-300 ease-in-out cursor-pointer">
+                    
+                    <!-- Title -->
+                    <h4 class="text-blue-400 text-xl mb-2 font-semibold"><%= post.user.username %></h4>
+
+                    <!-- Image Wrapper -->
+                    <% if (post.image && post.image.data) { %>
+                        <div class="w-full h-[250px] md:h-[370px] flex justify-center items-center bg-black rounded-lg overflow-hidden">
+                            <img src="data:<%= post.image.contentType %>;base64,<%= post.image.data.toString('base64') %>" 
+                                 alt="Post Image" 
+                                 class="w-full h-full object-cover">
+                        </div>
+                    <% } %>
+
+                    <!-- Scrollable Content -->
+                    <div class="flex-1 overflow-y-auto scrollbar-hide mt-3">
+                        <p class="text-sm text-emerald-400 tracking-tight font-bold mb-2"><%= post.title %></p>
+                        <p class="text-[12px] font-semibold tracking-tight text-gray-300"><%= post.content %></p>
+                    </div>
+
+                    <!-- Likes & Buttons -->
+                    <div>
+                        <small class="block mt-1 text-gray-400"><%= post.likes.length %> Likes</small>
+                        <div class="btns flex justify-end mt-2">
+                            <a class="text-blue-400 font-semibold text-xl" href="/likes/<%= post._id %>">
+                                <%- post.likes.indexOf(user.userid) === -1 ? '<i class="fas fa-thumbs-up"></i>' : '<i class="fas fa-thumbs-down"></i>' %>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            <% }) %>
+        </div>
+    </div>
+
+    <!-- JavaScript for Hamburger Menu -->
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const menuBtn = document.getElementById("menu-btn");
+            const mobileMenu = document.getElementById("mobile-menu");
+            let isMenuOpen = false;
+
+            menuBtn.addEventListener("click", function () {
+                isMenuOpen = !isMenuOpen;
+                mobileMenu.classList.toggle("hidden");
+
+                // Toggle between hamburger and cross icon
+                menuBtn.innerHTML = isMenuOpen ? '<i class="fas fa-times"></i>' : '<i class="fas fa-bars"></i>';
+            });
+        });
+    </script>
+</body>
+</html>

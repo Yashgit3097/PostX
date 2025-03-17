@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PostX</title>
+    <script src="https://unpkg.com/@tailwindcss/browser@4"></script>
+</head>
+<body>
+   <div class="w-full px-[30vw] p-[15vw] min-h-screen bg-zinc-900 text-white">
+    <h1 class="block text-4xl mb-5">Login Account</h1>
+    <form action="/login" method="post">
+        
+        <input type="text" name="email"  placeholder="Email" class="px-3 py-2 outline-none border border-zinc-500 rounded-lg">
+        <input type="password" name="password"  placeholder="Password" class="px-3 py-2 outline-none border border-zinc-500 rounded-lg">
+
+        <input type="submit" value="Login Account" class="bg-blue-500 p-2 m-2 rounded-lg">
+
+    </form>
+    <p class=" text-sm text-zinc-500" >If you don't have an account?<a class="text-blue-500" href="/">register here</a></p>
+   </div>
+</body>
+</html>
