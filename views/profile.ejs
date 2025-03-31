@@ -76,9 +76,9 @@
         <h1 class="text-4xl mb-5">Hello, <%= user.name %> 😉🤞</h1>
         <h5 class="text-zinc-400 mb-5">You can create a new post.</h5>
         <form method="post" action="/post" enctype="multipart/form-data">
-            <input type="text" class="block w-full md:w-1/2 lg:w-1/3 px-3 py-2 outline-none border border-zinc-500 rounded-lg mb-2" name="title" placeholder="What's on your mind?🤔💭">
-            <textarea name="content" placeholder="Share your thoughts...😁😉" class="block w-full md:w-1/2 lg:w-1/3 resize-none px-3 py-2 outline-none border border-zinc-500 rounded-lg"></textarea>
-            <input type="file" name="image" accept="image/*" class="block mt-2 text-white border border-zinc-500 p-2 rounded-lg w-full md:w-1/2 lg:w-1/3">
+            <input type="text" class="block w-full md:w-1/2 lg:w-1/3 px-3 py-2 outline-none border border-zinc-500 rounded-lg mb-2" name="title" placeholder="What's on your mind?🤔💭" required>
+            <textarea name="content" placeholder="Share your thoughts...😁😉" class="block w-full md:w-1/2 lg:w-1/3 resize-none px-3 py-2 outline-none border border-zinc-500 rounded-lg" required></textarea>
+            <input type="file" name="image" accept="image/*" class="block mt-2 text-white border border-zinc-500 p-2 rounded-lg w-full md:w-1/2 lg:w-1/3" required>
             <input type="submit" value="Create Post 👇🏻" class="w-full md:w-[10vw] block bg-blue-500 p-2 mt-3 rounded-lg">
         </form>
     </div>

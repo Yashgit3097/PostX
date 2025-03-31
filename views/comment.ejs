@@ -61,7 +61,7 @@
             <h2 class="text-lg font-semibold text-center mb-4">Leave a Comment</h2>
     
             <form action="/comment/<%= post._id %>" method="POST">
-                <input type="text" class="w-full px-4 py-2 outline-none border border-zinc-500 rounded-lg mb-3" name="comment" placeholder="comment your feedback 🤔💭">
+                <input type="text" class="w-full px-4 py-2 outline-none border border-zinc-500 rounded-lg mb-3" name="comment" placeholder="comment your feedback 🤔💭" required>
                 <input type="submit" value="Comment 👇🏻" class="w-full bg-blue-500 hover:bg-blue-600 p-2 rounded-lg cursor-pointer">
             </form>
     

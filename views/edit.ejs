@@ -54,7 +54,7 @@
     <h5 class=" text-3xl text-zinc-400 mb-5">Edit your post😁</h5>
     <form method="post" action="/update/<%= post._id %>">
         
-        <textarea name="content"  placeholder="what's on your mind?🤔💭" class="block scrollbar-hide w-full md:w-1/3 lg:w-1/2 text-md text-gray-300 h-20 resize-none px-4 py-2 outline-none border border-zinc-500 rounded-lg"><%= post.content%></textarea>
+        <textarea name="content"  placeholder="what's on your mind?🤔💭" class="block scrollbar-hide w-full md:w-1/3 lg:w-1/2 text-md text-gray-300 h-20 resize-none px-4 py-2 outline-none border border-zinc-500 rounded-lg" required><%= post.content%></textarea>
         <input type="submit" value="Update Post 👇🏻" class="text-sm font-semibold text-white block bg-blue-500 p-2 mt-3 rounded-lg">
     </form>
 
