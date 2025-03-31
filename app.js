@@ -47,7 +47,7 @@ app.get('/', (req, res) => {
 app.get('/profileview/:id', (req, res) => {
   const id = req.params.id;
   userModel.findById(id).populate("posts").then(user => {
-    console.log(user.posts)
+   
       if (!user) {
           return res.status(404).send('User not found');
       }
