@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PostX</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/js/all.min.js"></script>
+    <style>
+        /* Custom Scrollbar */
+.scrollbar-hide::-webkit-scrollbar {
+    width: 5px;
+}
+
+.scrollbar-hide::-webkit-scrollbar-thumb {
+    background: #555;
+    border-radius: 5px;
+}
+
+.scrollbar-hide::-webkit-scrollbar-track {
+    background: #222;
+}
+
+    </style>
+</head>
+<body class="w-full px-[5vw] min-h-screen bg-zinc-900 text-white">
+
+      <!-- Navbar -->
+      <nav class="w-full fixed top-0 left-0 flex justify-between items-center py-4 backdrop-blur-md  px-6 shadow-lg z-999">
+        <h1 class="text-2xl font-bold text-blue-400">
+            <a href="/profile">PostX</a>
+        </h1>
+
+        <!-- Hamburger Icon -->
+        <div class="md:hidden">
+            <button id="menu-btn" class="text-white text-2xl focus:outline-none">
+                <i class="fas fa-bars"></i> <!-- Default hamburger icon -->
+            </button>
+        </div>
+
+        <!-- Navigation Links -->
+        <div id="nav-links" class="hidden md:flex items-center gap-4">
+            <a href="/profile" class="text-white text-base flex items-center"><i class="fas fa-user-circle text-lg mr-1"></i> Profile</a>
+            <a href="/feed" class="text-white text-base flex items-center"><i class="fas fa-rss text-lg mr-1"></i> Feed</a>
+            <a href="/logout" class="bg-red-500 px-3 py-1 rounded-lg text-white font-semibold flex items-center">
+                <i class="fas fa-sign-out-alt mr-2"></i> Logout
+            </a>
+        </div>
+    </nav>
+
+     <!-- Mobile Dropdown Menu -->
+     <div id="mobile-menu" class="hidden md:hidden sm:w-[50%]   w-full  rounded-lg absolute top-[64px] right-0 py-4 shadow-lg transition-all ease-in-out backdrop-blur-md fixed z-999">
+        <a href="/profile" class="block px-6 py-2 text-white hover:bg-gray-700"><i class="fas fa-user-circle mr-2"></i> Profile</a>
+        <a href="/feed" class="block px-6 py-2 text-white hover:bg-gray-700"><i class="fas fa-rss mr-2"></i> Feed</a>
+        <a href="/logout" class="block px-6 py-2 text-white bg-red-500 hover:bg-red-600"><i class="fas fa-sign-out-alt mr-2 "></i> Logout</a>
+    </div>
+    <div id="comment" class="fixed inset-0 flex justify-center items-center z-50 backdrop-blur-md scrollbar-hide">
+        <div class="w-full  max-w-md bg-black/80 p-6 rounded-lg relative text-white">
+            <a href="/profile"><i class="fas fa-times absolute top-4 right-4 text-2xl cursor-pointer"></i></a>
+    
+            <h2 class="text-lg font-semibold text-center mb-4">Leave a Comment</h2>
+    
+            <form action="/comment/<%= post._id %>" method="POST">
+                <input type="text" class="w-full px-4 py-2 outline-none border border-zinc-500 rounded-lg mb-3" name="comment" placeholder="comment your feedback 🤔💭">
+                <input type="submit" value="Comment 👇🏻" class="w-full bg-blue-500 hover:bg-blue-600 p-2 rounded-lg cursor-pointer">
+            </form>
+    
+            <div class="mt-6">
+                <h3 class="text-lg font-semibold mb-3">Recent Comments</h3>
+                
+                <!-- Added scroll behavior when comments exceed max height -->
+                <div class="scrollbar-hide space-y-3 max-h-[250px] overflow-y-auto pr-2 scrollbar-thin scrollbar-thumb-gray-600 scrollbar-track-gray-800">
+                    <% if (post.comments.length > 0) { %>
+                        <% post.comments.forEach(comment => { %>
+                            <div class="px-2 flex bg-zinc-700 items-center justify-between rounded-lg">
+                                <div class="bg-zinc-700 p-3 rounded-lg">
+                                    <div class="text-blue-400 text-sm mb-2 font-semibold"><%= comment.user.username %></div>
+                                    <p class="text-sm"><%= comment.text %></p>
+                                </div>
+                                <a href="/comment/delete/<%= post._id %>/<%= comment._id %>"><i class="fa-solid fa-trash cursor-pointer text-red-400"></i></a>
+                            </div>
+                        <% }) %>
+                    <% } else { %>
+                        <p class="text-sm text-gray-400">No comments yet. Be the first to comment!</p>
+                    <% } %>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+         document.addEventListener("DOMContentLoaded", function () {
+            const menuBtn = document.getElementById("menu-btn");
+            const mobileMenu = document.getElementById("mobile-menu");
+            let isMenuOpen = false;
+
+            menuBtn.addEventListener("click", function () {
+                isMenuOpen = !isMenuOpen;
+                mobileMenu.classList.toggle("hidden");
+
+                // Toggle between hamburger and cross icon
+                menuBtn.innerHTML = isMenuOpen ? '<i class="fas fa-times"></i>' : '<i class="fas fa-bars"></i>';
+            });
+        });
+    </script>
+</body>
+</html>

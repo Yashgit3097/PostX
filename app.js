@@ -88,6 +88,70 @@ bcrypt.compare(password, user.password , (err, result) => {
   
  
 });
+
+app.get('/comment/:id', async (req, res) => {
+  try {
+    const post = await postModel.findOne({ _id: req.params.id }).populate("comments").populate("user").populate({
+      path: "comments.user", // 👈 Nested population
+      model: "user" // 👈 Ensure this matches your schema
+    });
+
+    
+    
+    if (!post) {
+      return res.status(404).send("Post not found");
+    }
+
+    res.render('comment', { post });
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Server Error");
+  }
+});
+app.post('/comment/:id',isLoggedin, async (req, res) => {
+  try {
+    const { comment } = req.body;
+    const post = await postModel.findById(req.params.id);
+    const user = await userModel.findOne({ email: req.user.email });
+
+    if (!post || !user) {
+      return res.status(404).send("Post or User not found");
+    }
+
+    const newComment = {
+      text: comment,
+      user: user._id,
+      
+    };
+
+    post.comments.push(newComment);
+    await post.save();
+
+    res.redirect(`/comment/${post._id}`); // Reload the comment page
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Server Error");
+  }
+});
+app.get('/comment/delete/:postId/:commentId', isLoggedin, async (req, res) => {
+  try {
+    const { postId, commentId } = req.params;
+    const post = await postModel.findById(postId);
+
+    if (!post) {
+      return res.status(404).send("Post not found");
+    }
+
+    // Find and remove the comment
+    post.comments = post.comments.filter(comment => comment._id.toString() !== commentId);
+    
+    await post.save();
+    res.redirect(`/comment/${postId}`);
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Server Error");
+  }
+});
 // for render profile page for perticular user
 app.get('/profile', isLoggedin, async (req, res) => {
   // Check if firstVisit is set in the session
