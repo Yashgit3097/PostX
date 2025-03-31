@@ -3,11 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PostX - Feed</title>
+    <title>PostX - User Profile</title>
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/js/all.min.js"></script>
     <style>
-        /* Hide scrollbar */
         .scrollbar-hide::-webkit-scrollbar {
             display: none;
         }
@@ -18,10 +17,12 @@
     </style>
 </head>
 <body class="w-full px-[5vw] min-h-screen bg-zinc-900 text-white">
-    <nav class="w-full fixed top-0 left-0 flex justify-between items-center backdrop-blur-md py-4  px-6 shadow-lg z-50">
+     <!-- Navbar -->
+     <nav class="w-full fixed top-0 left-0 flex justify-between items-center py-4 backdrop-blur-md  px-6 shadow-lg z-50">
         <h1 class="text-2xl font-bold text-blue-400">
             <a href="/profile">PostX</a>
         </h1>
+        
 
         <!-- Hamburger Icon -->
         <div class="md:hidden">
@@ -41,51 +42,60 @@
     </nav>
 
      <!-- Mobile Dropdown Menu -->
-     <div id="mobile-menu" class="hidden md:hidden sm:w-[50%] w-full   rounded-lg absolute top-[64px] right-0 py-4 shadow-lg transition-all ease-in-out backdrop-blur-md fixed z-99999">
+     <div id="mobile-menu" class="hidden md:hidden sm:w-[50%] w-full   rounded-lg absolute top-[64px] right-0 py-4 shadow-lg transition-all ease-in-out backdrop-blur-md fixed ">
         <a href="/profile" class="block px-6 py-2 text-white hover:bg-zinc-700"><i class="fas fa-user-circle mr-2"></i> Profile</a>
         <a href="/feed" class="block px-6 py-2 text-white hover:bg-zinc-700"><i class="fas fa-rss mr-2"></i> Feed</a>
         <a href="/logout" class="block px-6 py-2 text-white bg-red-500 hover:bg-red-600"><i class="fas fa-sign-out-alt mr-2 "></i> Logout</a>
     </div>
 
-    <div class="mt-20 px-4">
-        <h3 class="text-zinc-400 text-xl mb-6 text-center">Explore what others are sharing 🚀</h3>
+    <div class="mt-20 px-4 text-center">
+        <div class="w-full max-w-sm mx-auto bg-zinc-800 p-6 rounded-lg shadow-lg">
+            
+            <h2 class="text-2xl font-bold text-blue-400"><span class="font-semibold text-gray-300">Name :</span> <%= user.name%></h2>
+            <p class="text-green-400 text-2xl"><span class="text-xl text-gray-300">Username:</span> @<%=user.username%></p>
+            
+        </div>
+    </div>
 
-        <!-- Responsive Post Grid -->
-        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-6 place-items-center">
-            <% posts.reverse().forEach(function(post){ %>
-                <div class="post-container w-full max-w-sm sm:max-w-[90%] md:max-w-sm h-[600px] p-4 border border-zinc-600 rounded-lg bg-zinc-700 flex flex-col
+    <div class="mt-10 px-4">
+        <h3 class="text-zinc-400 text-xl mb-6 text-center"><%= user.name%>'s Posts 📢</h3>
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 place-items-center">
+            <!-- Dummy Posts -->
+            <% user.posts.reverse().forEach(function(post){ %>
+                <div class="post-container w-full max-w-sm h-[500px] sm:h-[550px] md:h-[600px] p-4 mb-5 border border-zinc-600 rounded-lg bg-zinc-700 flex flex-col
                             hover:bg-blue-900/30 hover:ring-4 hover:ring-blue-500 
                             hover:shadow-[0_0_20px_5px_rgba(59,130,246,0.7)] 
                             hover:scale-105 transition-all duration-300 ease-in-out cursor-pointer">
-                    
-                    <!-- Title -->
-                   <a href="/profileview/<%= post.user._id %>"> <h4 class="text-blue-400 text-xl mb-2 font-semibold cursor-pointer hover:underline "><%= post.user.username %></h4> </a>
-
-                    <!-- Image Wrapper -->
+                    <!-- Username -->
+                    <h4 class="text-blue-400 text-xl mb-2 font-semibold"><%= user.username %></h4>
+        
+                    <!-- Post Image -->
                     <% if (post.image && post.image.data) { %>
-                        <div class="w-full h-[250px] md:h-[370px] flex justify-center items-center bg-black rounded-lg overflow-hidden">
+                        <div class="w-full max-h-[400px] sm:max-h-[450px] md:max-h-[370px] flex justify-center items-center bg-black rounded-lg overflow-hidden">
                             <img src="data:<%= post.image.contentType %>;base64,<%= post.image.data.toString('base64') %>" 
                                  alt="Post Image" 
-                                 class="w-full h-full object-cover">
+                                 class="w-full h-auto object-cover">
                         </div>
                     <% } %>
-
-                    <!-- Scrollable Content -->
+        
+                    <!-- Post Content -->
                     <div class="flex-1 overflow-y-auto scrollbar-hide mt-3">
                         <p class="text-sm text-emerald-400 tracking-tight font-bold mb-2"><%= post.title %></p>
                         <p class="text-[12px] font-semibold tracking-tight text-gray-300"><%= post.content %></p>
                     </div>
-
-                    <!-- Likes & Buttons -->
+        
+                    <!-- Likes and Buttons -->
                     <div>
                         <small class="block mt-1 text-gray-400"><%= post.likes.length %> Likes</small>
-                        <div class="btns flex gap-4 justify-end mt-2 relative">
-                            <a class="text-blue-400 font-semibold text-xl" href="/likes/<%= post._id %>">
-                                <%- post.likes.indexOf(user.userid) === -1 ? '<i class="fas fa-thumbs-up"></i>' : '<i class="fas fa-thumbs-down"></i>' %>
+                        <div class="btns flex justify-end gap-4 mt-2 relative">
+                            <a class="text-blue-400 text-xl" href="/like/<%= post._id %>">
+                                <%- post.likes.indexOf(user._id) === -1 ? '<i class="fas fa-thumbs-up"></i>' : '<i class="fas fa-thumbs-down"></i>' %>
                             </a>
+                            
+
                             <a class="text-blue-500 text-xl" href="/comment/<%= post._id %>"><i class="fa-solid fa-comment"></i></a>
                             <% if (post.comments.length != 0) { %>
-                         <div class="rounded-full w-4 h-4 bg-red-500 absolute right-[-6px] top-[1px] flex items-center justify-center text-[12px]  p-1"><%=post.comments.length%></div>
+                         <div class="rounded-full w-4 h-4 bg-red-500 absolute right-[-6px] top-[1px] flex items-center justify-center text-[12px] p-1"><%=post.comments.length%></div>
                          <% } %>
                         </div>
                     </div>
@@ -94,21 +104,18 @@
         </div>
     </div>
 
-    <!-- JavaScript for Hamburger Menu -->
     <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            const menuBtn = document.getElementById("menu-btn");
-            const mobileMenu = document.getElementById("mobile-menu");
-            let isMenuOpen = false;
+     const menuBtn = document.getElementById("menu-btn");
+        const mobileMenu = document.getElementById("mobile-menu");
+        let isMenuOpen = false;
 
-            menuBtn.addEventListener("click", function () {
-                isMenuOpen = !isMenuOpen;
-                mobileMenu.classList.toggle("hidden");
+        menuBtn.addEventListener("click", function () {
+            isMenuOpen = !isMenuOpen;
+            mobileMenu.classList.toggle("hidden");
 
-                // Toggle between hamburger and cross icon
-                menuBtn.innerHTML = isMenuOpen ? '<i class="fas fa-times"></i>' : '<i class="fas fa-bars"></i>';
-            });
+            // Toggle between hamburger and cross icon
+            menuBtn.innerHTML = isMenuOpen ? '<i class="fas fa-times"></i>' : '<i class="fas fa-bars"></i>';
         });
-    </script>
+        </script>
 </body>
 </html>

@@ -43,6 +43,18 @@ app.use((req, res, next) => {
 app.get('/', (req, res) => {
   res.render('index');
 });
+
+app.get('/profileview/:id', (req, res) => {
+  const id = req.params.id;
+  userModel.findById(id).populate("posts").then(user => {
+    console.log(user.posts)
+      if (!user) {
+          return res.status(404).send('User not found');
+      }
+      res.render('profileView', { user });
+  }
+  );
+});
 // for register the user into database
 app.post('/register', async (req, res) => {
   const { username, name, age, email, password } = req.body;
