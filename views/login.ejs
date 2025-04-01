@@ -1,42 +1,22 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>PostX</title>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PostX - Login</title>
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
-  </head>
-  <body>
-    <div class="w-full px-[30vw] p-[15vw] min-h-screen bg-zinc-900 text-white">
-      <h1 class="block text-4xl mb-5">Login Account</h1>
-
-      <form action="/login" method="post">
-        <input
-          type="text"
-          name="email"
-          placeholder="Email"
-          class="px-3 py-2 outline-none border border-zinc-500 rounded-lg"
-          required
-        />
-        <input
-          type="password"
-          name="password"
-          placeholder="Password"
-          class="px-3 py-2 outline-none border border-zinc-500 rounded-lg"
-          required
-        />
-
-        <input
-          type="submit"
-          value="Login Account"
-          class="bg-blue-500 p-2 m-2 rounded-lg"
-        />
-      </form>
-      <p class="text-sm text-zinc-500">
-        If you don't have an account?<a class="text-blue-500" href="/"
-          >register here</a
-        >
-      </p>
-    </div>
-  </body>
+</head>
+<body class="bg-zinc-900 text-white flex justify-center items-center min-h-screen p-4">
+   <div class="w-full max-w-md bg-zinc-800 p-6 rounded-xl border border-zinc-700 shadow-lg shadow-zinc-950 hover:shadow-xl hover:shadow-blue-500 transition duration-300">
+        <h1 class="text-3xl font-semibold mb-5 text-center">Login Account</h1>
+        <form action="/login" method="post" class="space-y-3">
+            <input type="text" name="email" placeholder="Email" class="w-full p-3 outline-none border border-zinc-600 bg-zinc-900 rounded-lg focus:ring-2 focus:ring-blue-500" required>
+            <input type="password" name="password" placeholder="Password" class="w-full p-3 outline-none border border-zinc-600 bg-zinc-900 rounded-lg focus:ring-2 focus:ring-blue-500" required>
+            <input type="submit" value="Login" class="w-full bg-blue-500 p-3 rounded-lg cursor-pointer hover:bg-blue-600 transition">
+        </form>
+        <p class="text-sm text-zinc-400 text-center mt-4">
+            Don't have an account? <a class="text-blue-400 hover:underline" href="/">Register here</a>
+        </p>
+   </div>
+</body>
 </html>
