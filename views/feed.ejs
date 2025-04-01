@@ -18,10 +18,12 @@
     </style>
 </head>
 <body class="w-full px-[5vw] min-h-screen bg-zinc-900 text-white">
-    <nav class="w-full fixed top-0 left-0 flex justify-between items-center backdrop-blur-md py-4  px-6 shadow-lg z-50">
+    <!-- Navbar -->
+    <nav class="w-full fixed top-0 left-0 flex justify-between items-center py-4 backdrop-blur-md  px-6 shadow-lg z-50">
         <h1 class="text-2xl font-bold text-blue-400">
             <a href="/profile">PostX</a>
         </h1>
+        
 
         <!-- Hamburger Icon -->
         <div class="md:hidden">
@@ -41,10 +43,16 @@
     </nav>
 
      <!-- Mobile Dropdown Menu -->
-     <div id="mobile-menu" class="hidden md:hidden sm:w-[50%] w-full   rounded-lg absolute top-[64px] right-0 py-4 shadow-lg transition-all ease-in-out backdrop-blur-md fixed z-99999">
-        <a href="/profile" class="block px-6 py-2 text-white hover:bg-zinc-700"><i class="fas fa-user-circle mr-2"></i> Profile</a>
-        <a href="/feed" class="block px-6 py-2 text-white hover:bg-zinc-700"><i class="fas fa-rss mr-2"></i> Feed</a>
-        <a href="/logout" class="block px-6 py-2 text-white bg-red-500 hover:bg-red-600"><i class="fas fa-sign-out-alt mr-2 "></i> Logout</a>
+     <div id="mobile-menu" class="hidden fixed top-16 right-4 w-3/4 max-w-xs bg-zinc-800 rounded-lg shadow-lg overflow-hidden transform transition-all duration-300 ease-in-out opacity-0 scale-95">
+        <a href="/profile" class="block px-6 py-3 text-white hover:bg-zinc-700 transition flex items-center">
+            <i class="fas fa-user-circle mr-2"></i> Profile
+        </a>
+        <a href="/feed" class="block px-6 py-3 text-white hover:bg-zinc-700 transition flex items-center">
+            <i class="fas fa-rss mr-2"></i> Feed
+        </a>
+        <a href="/logout" class="block px-6 py-3 text-white bg-red-500 hover:bg-red-600 transition flex items-center">
+            <i class="fas fa-sign-out-alt mr-2"></i> Logout
+        </a>
     </div>
 
     <div class="mt-20 px-4">
@@ -96,19 +104,37 @@
 
     <!-- JavaScript for Hamburger Menu -->
     <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            const menuBtn = document.getElementById("menu-btn");
+         const menuBtn = document.getElementById("menu-btn");
             const mobileMenu = document.getElementById("mobile-menu");
             let isMenuOpen = false;
 
             menuBtn.addEventListener("click", function () {
-                isMenuOpen = !isMenuOpen;
+                const isMenuOpen = !mobileMenu.classList.contains('hidden');
                 mobileMenu.classList.toggle("hidden");
-
+                if (isMenuOpen) {
+                // Close the menu
+                mobileMenu.classList.add('opacity-0', 'scale-95');
+                mobileMenu.classList.remove('opacity-100', 'scale-100');
+                setTimeout(() => {
+                    mobileMenu.classList.add('hidden');
+                }, 200);
                 // Toggle between hamburger and cross icon
-                menuBtn.innerHTML = isMenuOpen ? '<i class="fas fa-times"></i>' : '<i class="fas fa-bars"></i>';
+                menuBtn.innerHTML =  '<i class="fas fa-bars"></i>' 
+                // : '<i class="fas fa-bars"></i>';
+            }else {
+                // Open the menu
+                mobileMenu.classList.remove('hidden');
+                setTimeout(() => {
+                    mobileMenu.classList.add('opacity-100', 'scale-100');
+                    mobileMenu.classList.remove('opacity-0', 'scale-95');
+                }, 10);
+                
+                // Toggle icons
+                menuBtn.innerHTML =  '<i class="fas fa-times"> </i>';
+            }
+                
+                
             });
-        });
     </script>
 </body>
 </html>

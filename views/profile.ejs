@@ -66,11 +66,18 @@
     </nav>
 
      <!-- Mobile Dropdown Menu -->
-     <div id="mobile-menu" class="hidden md:hidden sm:w-[50%] w-full   rounded-lg absolute top-[64px] right-0 py-4 shadow-lg transition-all ease-in-out backdrop-blur-md fixed ">
-        <a href="/profile" class="block px-6 py-2 text-white hover:bg-zinc-700"><i class="fas fa-user-circle mr-2"></i> Profile</a>
-        <a href="/feed" class="block px-6 py-2 text-white hover:bg-zinc-700"><i class="fas fa-rss mr-2"></i> Feed</a>
-        <a href="/logout" class="block px-6 py-2 text-white bg-red-500 hover:bg-red-600"><i class="fas fa-sign-out-alt mr-2 "></i> Logout</a>
+     <div id="mobile-menu" class="hidden fixed top-16 right-4 w-3/4 max-w-xs bg-zinc-800 rounded-lg shadow-lg overflow-hidden transform transition-all duration-300 ease-in-out opacity-0 scale-95">
+        <a href="/profile" class="block px-6 py-3 text-white hover:bg-zinc-700 transition flex items-center">
+            <i class="fas fa-user-circle mr-2"></i> Profile
+        </a>
+        <a href="/feed" class="block px-6 py-3 text-white hover:bg-zinc-700 transition flex items-center">
+            <i class="fas fa-rss mr-2"></i> Feed
+        </a>
+        <a href="/logout" class="block px-6 py-3 text-white bg-red-500 hover:bg-red-600 transition flex items-center">
+            <i class="fas fa-sign-out-alt mr-2"></i> Logout
+        </a>
     </div>
+    
 
     <div class="mt-20 px-4 flex justify-center">
         <div class="w-full max-w-lg bg-zinc-800 p-6 rounded-xl border border-zinc-700 shadow-lg shadow-zinc-950 hover:shadow-2xl hover:shadow-blue-500 transition duration-300">
@@ -186,11 +193,31 @@ function handleFileSelect() {
             let isMenuOpen = false;
 
             menuBtn.addEventListener("click", function () {
-                isMenuOpen = !isMenuOpen;
+                const isMenuOpen = !mobileMenu.classList.contains('hidden');
                 mobileMenu.classList.toggle("hidden");
-
+                if (isMenuOpen) {
+                // Close the menu
+                mobileMenu.classList.add('opacity-0', 'scale-95');
+                mobileMenu.classList.remove('opacity-100', 'scale-100');
+                setTimeout(() => {
+                    mobileMenu.classList.add('hidden');
+                }, 200);
                 // Toggle between hamburger and cross icon
-                menuBtn.innerHTML = isMenuOpen ? '<i class="fas fa-times"></i>' : '<i class="fas fa-bars"></i>';
+                menuBtn.innerHTML =  '<i class="fas fa-bars"></i>' 
+                // : '<i class="fas fa-bars"></i>';
+            }else {
+                // Open the menu
+                mobileMenu.classList.remove('hidden');
+                setTimeout(() => {
+                    mobileMenu.classList.add('opacity-100', 'scale-100');
+                    mobileMenu.classList.remove('opacity-0', 'scale-95');
+                }, 10);
+                
+                // Toggle icons
+                menuBtn.innerHTML =  '<i class="fas fa-times"></i> ';
+            }
+                
+                
             });
             
             const firstVisit = "<%= firstVisit %>"; // Get firstVisit from the session
