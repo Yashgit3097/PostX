@@ -101,20 +101,25 @@ bcrypt.compare(password, user.password , (err, result) => {
  
 });
 
-app.get('/comment/:id', async (req, res) => {
+app.get('/comment/:id',isLoggedin, async (req, res) => {
   try {
     const post = await postModel.findOne({ _id: req.params.id }).populate("comments").populate("user").populate({
       path: "comments.user", // 👈 Nested population
       model: "user" // 👈 Ensure this matches your schema
     });
 
+    let deletecomment;
     
-    
+
+    post.comments.forEach(comment => {
+      comment.deletecomment = comment.user._id.toString() === req.user.userid;
+
+    });
     if (!post) {
       return res.status(404).send("Post not found");
     }
-
-    res.render('comment', { post });
+    
+    res.render('comment', { post , deletecomment });
   } catch (error) {
     console.error(error);
     res.status(500).send("Server Error");
