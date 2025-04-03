@@ -39,8 +39,16 @@ app.use((req, res, next) => {
   next();
 });
 
+function checkLogin(req, res, next) {
+  if (req.cookies.token) {
+      return res.redirect('/profile'); // If logged in, go to profile
+      console.log(req.cookies.token);
+  }
+  next(); // Otherwise, continue
+}
+
 //for render register page
-app.get('/', (req, res) => {
+app.get('/',checkLogin, (req, res) => {
   res.render('index');
 });
 
@@ -74,6 +82,8 @@ app.post('/register', async (req, res) => {
 
     let token = jwt.sign({email: email, userid: user._id},"shhhh");
       res.cookie('token', token);
+      res.cookie('user', JSON.stringify(user), { maxAge: 24 * 60 * 60 * 1000, httpOnly: true });
+
       res.redirect('/login');
   });
  });
